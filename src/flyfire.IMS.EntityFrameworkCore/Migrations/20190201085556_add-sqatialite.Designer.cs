@@ -2,16 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NetTopologySuite.Geometries;
 using flyfire.IMS.EntityFrameworkCore;
 
 namespace flyfire.IMS.Migrations
 {
     [DbContext(typeof(IMSDbContext))]
-    partial class IMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190201085556_add-sqatialite")]
+    partial class addsqatialite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -982,23 +983,6 @@ namespace flyfire.IMS.Migrations
                     b.HasIndex("TenantId", "NormalizedUserName");
 
                     b.ToTable("AbpUsers");
-                });
-
-            modelBuilder.Entity("flyfire.IMS.Facilities.Facility", b =>
-                {
-                    b.Property<int>("FacilityId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FacilityName");
-
-                    b.Property<Geometry>("Location")
-                        .HasAnnotation("Sqlite:Srid", 4326);
-
-                    b.Property<string>("LocationDescription");
-
-                    b.HasKey("FacilityId");
-
-                    b.ToTable("Facilities");
                 });
 
             modelBuilder.Entity("flyfire.IMS.MultiTenancy.Tenant", b =>

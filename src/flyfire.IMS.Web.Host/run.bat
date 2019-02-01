@@ -1,0 +1,1 @@
+dotnet ./flyfire.ims.web.host.dll
