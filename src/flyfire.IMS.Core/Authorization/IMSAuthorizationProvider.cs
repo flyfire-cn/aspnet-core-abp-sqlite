@@ -1,6 +1,7 @@
 ﻿using Abp.Authorization;
 using Abp.Localization;
 using Abp.MultiTenancy;
+using System.Linq;
 
 namespace flyfire.IMS.Authorization
 {
@@ -8,8 +9,12 @@ namespace flyfire.IMS.Authorization
     {
         public override void SetPermissions(IPermissionDefinitionContext context)
         {
-            context.CreatePermission(PermissionNames.Pages_Users, L("Users"));
-            context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
+            //修改权限，增加管理单元默认权限
+            var pages = context.GetPermissionOrNull(PermissionNames.Pages) ?? context.CreatePermission(PermissionNames.Pages, L("Pages"));
+            var administration = pages.Children.FirstOrDefault(p => p.Name == PermissionNames.Pages_Administration) ?? pages.CreateChildPermission(PermissionNames.Pages_Administration, L("Administration"));
+
+            administration.CreateChildPermission(PermissionNames.Pages_Users, L("Users"));
+            administration.CreateChildPermission(PermissionNames.Pages_Roles, L("Roles"));
             context.CreatePermission(PermissionNames.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
         }
 
